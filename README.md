@@ -1,6 +1,6 @@
 # 🧮 Kalkulator Metode Numerik
 
-link laporan Projek: (LAPORAN_PROJECT.md)
+📄 **Laporan Proyek:** [Buka Laporan](LAPORAN_PROJECT.md)    
 
 Aplikasi kalkulator metode numerik berbasis **Streamlit** yang mengimplementasikan **20 metode** untuk menyelesaikan berbagai permasalahan matematika.
 
