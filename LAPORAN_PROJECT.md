@@ -474,7 +474,8 @@ def bisection(f, a, b, tol=1e-6, max_iter=100):
 ## 4. CUPLIKAN HASIL RUNNING
 
 ### 4.1 Halaman Utama
-[Screenshot halaman utama dengan daftar kategori metode]
+<img width="2559" height="1148" alt="image" src="https://github.com/user-attachments/assets/e332e1cc-6616-4a7d-89d8-2ae328c90bff" />
+
 
 ### 4.2 Metode Pencarian Akar - Bisection
 [Screenshot hasil perhitungan Bisection dengan tabel iterasi dan grafik]
