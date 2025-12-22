@@ -6,6 +6,7 @@
 **Nama**: Rui Krisna Imanuel Babu 
 **NIM**: C14230277  
 **Kelas**: A 
+
 **Dosen Pengampu**: Ivan Hernando
 
 ---
