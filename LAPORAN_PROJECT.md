@@ -3,8 +3,8 @@
 
 ---
 
-**Nama**: Rui Krisna Imanuel Babu    
-**NIM**: C14230277  
+**Nama**: Rui Krisna Imanuel Babu , Deaven Anthony Tjiang    
+**NIM**: C14230277 , C14230183    
 **Kelas**: A    
 **Dosen Pengampu**: Ivan Hernando
 
