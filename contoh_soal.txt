@@ -1,0 +1,366 @@
+================================================================================
+                    CONTOH SOAL KALKULATOR METODE NUMERIK
+                    (2 soal per metode: simple & kompleks)
+================================================================================
+
+================================================================================
+1. METODE PENCARIAN AKAR
+================================================================================
+
+--- BISECTION ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**2 - 4
+Batas bawah (a): 0
+Batas atas (b): 3
+Toleransi: 0.0001
+Nilai eksak: 2
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: x**3 - 2*x - 5
+Batas bawah (a): 2
+Batas atas (b): 3
+Toleransi: 0.000001
+
+--- REGULA FALSI ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**2 - 2
+Batas bawah (a): 1
+Batas atas (b): 2
+Toleransi: 0.0001
+Nilai eksak: 1.41421356 (√2)
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: exp(-x) - x
+Batas bawah (a): 0
+Batas atas (b): 1
+Toleransi: 0.000001
+
+--- NEWTON-RAPHSON ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**2 - 9
+Tebakan awal (x0): 2
+Toleransi: 0.0001
+Nilai eksak: 3
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: x**3 + 2*x**2 + 10*x - 20
+Tebakan awal (x0): 1
+Toleransi: 0.000001
+
+--- SECANT ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**2 - 16
+x0: 3
+x1: 5
+Toleransi: 0.0001
+Nilai eksak: 4
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: cos(x) - x
+x0: 0
+x1: 1
+Toleransi: 0.000001
+
+================================================================================
+2. INTERPOLASI
+================================================================================
+
+--- NEWTON DIVIDED DIFFERENCE ---
+
+Soal 1 (Simple, dengan eksak):
+Data x: 1, 2, 3, 4
+Data y: 1, 4, 9, 16
+Target x: 2.5
+Nilai eksak: 6.25 (karena y = x²)
+
+Soal 2 (Kompleks, tanpa eksak):
+Data x: 0, 1, 2, 3, 4, 5
+Data y: 1, 2.7, 7.4, 20.1, 54.6, 148.4
+Target x: 2.5
+(Data dari fungsi exp(x))
+
+--- LAGRANGE ---
+
+Soal 1 (Simple, dengan eksak):
+Data x: 0, 1, 2
+Data y: 1, 2, 5
+Target x: 1.5
+Nilai eksak: 3.25
+
+Soal 2 (Kompleks, tanpa eksak):
+Data x: 1, 2, 4, 6, 8
+Data y: 0, 0.693, 1.386, 1.791, 2.079
+Target x: 5
+(Data dari fungsi ln(x))
+
+================================================================================
+3. INTEGRASI NUMERIK
+================================================================================
+
+--- TRAPEZOIDAL ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**2
+Batas bawah (a): 0
+Batas atas (b): 1
+Jumlah sub-interval (n): 4
+Nilai eksak: 0.333333 (1/3)
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: sin(x)*exp(-x)
+Batas bawah (a): 0
+Batas atas (b): 3.14159
+Jumlah sub-interval (n): 20
+
+--- SIMPSON 1/3 ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**3
+Batas bawah (a): 0
+Batas atas (b): 2
+Jumlah sub-interval (n): 4 (harus genap)
+Nilai eksak: 4
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: 1/(1 + x**2)
+Batas bawah (a): 0
+Batas atas (b): 1
+Jumlah sub-interval (n): 10
+(Hasilnya mendekati π/4 ≈ 0.7854)
+
+--- SIMPSON 3/8 ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**2
+Batas bawah (a): 0
+Batas atas (b): 3
+Jumlah sub-interval (n): 3 (harus kelipatan 3)
+Nilai eksak: 9
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: exp(-x**2)
+Batas bawah (a): 0
+Batas atas (b): 2
+Jumlah sub-interval (n): 6
+
+================================================================================
+4. DIFERENSIASI NUMERIK
+================================================================================
+
+--- FORWARD DIFFERENCE ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**2
+Titik evaluasi (x): 2
+Step size (h): 0.1
+Nilai eksak f'(2) = 4
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: sin(x)*cos(x)
+Titik evaluasi (x): 1
+Step size (h): 0.01
+
+--- BACKWARD DIFFERENCE ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: x**3
+Titik evaluasi (x): 1
+Step size (h): 0.1
+Nilai eksak f'(1) = 3
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: log(x) + exp(x)
+Titik evaluasi (x): 2
+Step size (h): 0.05
+
+--- CENTRAL DIFFERENCE ---
+
+Soal 1 (Simple, dengan eksak):
+Fungsi: sin(x)
+Titik evaluasi (x): 0
+Step size (h): 0.1
+Nilai eksak f'(0) = cos(0) = 1
+
+Soal 2 (Kompleks, tanpa eksak):
+Fungsi: x**2 * exp(-x)
+Titik evaluasi (x): 1
+Step size (h): 0.01
+
+================================================================================
+5. PERSAMAAN DIFERENSIAL BIASA (ODE)
+================================================================================
+
+--- EULER ---
+
+Soal 1 (Simple, dengan eksak):
+dy/dx = y
+x0: 0
+y0: 1
+x akhir: 1
+Step size (h): 0.1
+Solusi eksak: y = exp(x), jadi y(1) = e ≈ 2.71828
+
+Soal 2 (Kompleks, tanpa eksak):
+dy/dx = x + y
+x0: 0
+y0: 1
+x akhir: 2
+Step size (h): 0.2
+
+--- HEUN (IMPROVED EULER) ---
+
+Soal 1 (Simple, dengan eksak):
+dy/dx = -2*y
+x0: 0
+y0: 1
+x akhir: 1
+Step size (h): 0.2
+Solusi eksak: y = exp(-2x), jadi y(1) = e^(-2) ≈ 0.1353
+
+Soal 2 (Kompleks, tanpa eksak):
+dy/dx = x**2 - y
+x0: 0
+y0: 0.5
+x akhir: 2
+Step size (h): 0.25
+
+--- RUNGE-KUTTA 4 ---
+
+Soal 1 (Simple, dengan eksak):
+dy/dx = y
+x0: 0
+y0: 1
+x akhir: 2
+Step size (h): 0.5
+Solusi eksak: y = exp(x), jadi y(2) = e² ≈ 7.389
+
+Soal 2 (Kompleks, tanpa eksak):
+dy/dx = -y + x*y**2
+x0: 0
+y0: 1
+x akhir: 1
+Step size (h): 0.1
+
+================================================================================
+6. SISTEM PERSAMAAN LINEAR
+================================================================================
+
+--- ELIMINASI GAUSS ---
+
+Soal 1 (Simple):
+Matriks A:
+| 2  1 |
+| 1  3 |
+
+Vektor b: [5, 7]
+
+Solusi: x1 = 1.6, x2 = 1.8
+
+Soal 2 (Kompleks):
+Matriks A:
+| 3  -0.1  -0.2 |
+| 0.1   7  -0.3 |
+| 0.3  -0.2  10 |
+
+Vektor b: [7.85, -19.3, 71.4]
+
+--- GAUSS-JORDAN ---
+
+Soal 1 (Simple):
+Matriks A:
+| 1  1  1 |
+| 2  1  3 |
+| 1  2  1 |
+
+Vektor b: [6, 11, 8]
+
+Solusi: x1 = 1, x2 = 2, x3 = 3
+
+Soal 2 (Kompleks):
+Matriks A:
+|  2   1  -1   3 |
+|  4   2   1   1 |
+| -2   1   5   2 |
+|  6   3   0  -1 |
+
+Vektor b: [5, 9, 4, 8]
+
+--- LU DECOMPOSITION ---
+
+Soal 1 (Simple):
+Matriks A:
+| 2  1 |
+| 4  3 |
+
+Vektor b: [4, 10]
+
+Solusi: x1 = 1, x2 = 2
+
+Soal 2 (Kompleks):
+Matriks A:
+| 1  1  0  3 |
+| 2  1 -1  1 |
+| 3 -1 -1  2 |
+|-1  2  3 -1 |
+
+Vektor b: [4, 1, -3, 4]
+
+--- JACOBI ---
+
+Soal 1 (Simple, diagonal dominan):
+Matriks A:
+| 4  1 |
+| 1  3 |
+
+Vektor b: [1, 2]
+Toleransi: 0.0001
+Max iterasi: 50
+
+Soal 2 (Kompleks):
+Matriks A:
+| 10  -1   2   0 |
+| -1  11  -1   3 |
+|  2  -1  10  -1 |
+|  0   3  -1   8 |
+
+Vektor b: [6, 25, -11, 15]
+Toleransi: 0.000001
+Max iterasi: 100
+
+--- GAUSS-SEIDEL ---
+
+Soal 1 (Simple, diagonal dominan):
+Matriks A:
+| 5  1 |
+| 1  4 |
+
+Vektor b: [6, 5]
+Toleransi: 0.0001
+Max iterasi: 50
+
+Solusi: x1 = 1, x2 = 1
+
+Soal 2 (Kompleks):
+Matriks A:
+| 4  -1   0   0 |
+|-1   4  -1   0 |
+| 0  -1   4  -1 |
+| 0   0  -1   4 |
+
+Vektor b: [15, 10, 10, 15]
+Toleransi: 0.000001
+Max iterasi: 100
+
+================================================================================
+                              SELESAI
+================================================================================
+
+Tips penggunaan:
+1. Copy-paste nilai ke input aplikasi
+2. Untuk fungsi, gunakan format Python: x**2 (bukan x^2)
+3. Gunakan sin(), cos(), exp(), log() untuk fungsi khusus
+4. Untuk matriks, masukkan nilai satu per satu ke input form
