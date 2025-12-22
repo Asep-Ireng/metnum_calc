@@ -131,6 +131,41 @@ def show_root_finding():
         ["Bisection", "Regula Falsi", "Newton-Raphson", "Secant"]
     )
     
+    # Display LaTeX formula for selected method
+    st.markdown("### 📐 Formula Metode")
+    if method == "Bisection":
+        st.latex(r"c = \frac{a + b}{2}")
+        st.markdown("""
+        **Algoritma:** Bagi interval [a,b] menjadi dua, pilih subinterval yang mengandung akar.
+        - Jika f(a)·f(c) < 0, akar di [a,c]
+        - Jika f(c)·f(b) < 0, akar di [c,b]
+        - **Order konvergensi:** O(1) - Linear
+        """)
+    elif method == "Regula Falsi":
+        st.latex(r"c = \frac{a \cdot f(b) - b \cdot f(a)}{f(b) - f(a)}")
+        st.markdown("""
+        **Algoritma:** Gunakan interpolasi linear untuk estimasi akar.
+        - Tarik garis lurus antara (a, f(a)) dan (b, f(b))
+        - Titik potong dengan sumbu-x adalah estimasi akar
+        - **Order konvergensi:** O(1) - Linear (tapi biasanya lebih cepat dari Bisection)
+        """)
+    elif method == "Newton-Raphson":
+        st.latex(r"x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}")
+        st.markdown("""
+        **Algoritma:** Gunakan garis singgung untuk estimasi akar.
+        - Butuh turunan f'(x)
+        - Konvergen cepat jika tebakan awal dekat dengan akar
+        - **Order konvergensi:** O(2) - Kuadratik
+        """)
+    else:  # Secant
+        st.latex(r"x_{n+1} = x_n - f(x_n) \cdot \frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})}")
+        st.markdown("""
+        **Algoritma:** Mirip Newton-Raphson tapi tanpa turunan.
+        - Aproksimasi turunan dengan selisih terbagi
+        - Butuh dua tebakan awal
+        - **Order konvergensi:** O(1.618) - Superlinear (Golden Ratio)
+        """)
+    
     st.markdown("---")
     
     # Input section
@@ -160,6 +195,9 @@ def show_root_finding():
             tol = st.number_input("Toleransi:", value=1e-6, format="%.2e")
         with c2:
             max_iter = st.number_input("Maksimum iterasi:", value=100, min_value=1)
+        
+        exact_str = st.text_input("Nilai akar eksak (opsional, untuk error):", value="",
+                                   help="Masukkan nilai akar eksak jika diketahui untuk menghitung error")
     
     if st.button("🔍 Hitung Akar", type="primary"):
         try:
@@ -181,13 +219,47 @@ def show_root_finding():
             else:
                 st.success(f"✅ **Akar ditemukan: x = {result['root']:.10f}**")
                 st.write(f"Jumlah iterasi: {result['iterations']}")
-                st.write(f"Error akhir: {result.get('final_error', 'N/A'):.2e}%")
+                st.write(f"Error aproksimasi: {result.get('final_error', 'N/A'):.2e}%")
+                
+                # Calculate true error if exact value provided
+                if exact_str:
+                    try:
+                        exact = float(exact_str)
+                        true_error = abs((result['root'] - exact) / exact) * 100 if exact != 0 else abs(result['root'] - exact)
+                        st.write(f"Error terhadap nilai eksak: {true_error:.6f}%")
+                    except:
+                        pass
                 
                 # Show iteration table
                 st.markdown("### 📋 Tabel Iterasi")
                 st.dataframe(result['table'], use_container_width=True)
                 
-                # Plot
+                # Function Plot - NEW!
+                st.markdown("### 📊 Grafik Fungsi f(x)")
+                
+                # Determine plot range
+                if method in ["Bisection", "Regula Falsi"]:
+                    x_min, x_max = min(a, result['root']) - 0.5, max(b, result['root']) + 0.5
+                else:
+                    x_min, x_max = result['root'] - 2, result['root'] + 2
+                
+                x_plot = np.linspace(x_min, x_max, 200)
+                y_plot = [f(x) for x in x_plot]
+                
+                fig, ax = plt.subplots(figsize=(10, 5))
+                ax.plot(x_plot, y_plot, 'b-', linewidth=2, label=f'f(x) = {func_str}')
+                ax.axhline(y=0, color='k', linestyle='-', linewidth=0.5)
+                ax.axvline(x=0, color='k', linestyle='-', linewidth=0.5)
+                ax.scatter([result['root']], [0], color='red', s=150, zorder=5, 
+                          label=f'Akar x = {result["root"]:.6f}', marker='o')
+                ax.set_xlabel('x')
+                ax.set_ylabel('f(x)')
+                ax.set_title(f'Grafik Fungsi: f(x) = {func_str}')
+                ax.legend()
+                ax.grid(True, alpha=0.3)
+                st.pyplot(fig)
+                
+                # Convergence Plot
                 st.markdown("### 📈 Grafik Konvergensi")
                 if method in ["Bisection", "Regula Falsi"]:
                     plot_col = 'c'
@@ -197,15 +269,60 @@ def show_root_finding():
                     plot_col = 'x_{n+1}'
                 
                 if plot_col in result['table'].columns:
-                    fig, ax = plt.subplots(figsize=(10, 4))
-                    ax.plot(result['table']['Iterasi'], result['table'][plot_col], 'bo-', markersize=8)
-                    ax.axhline(y=result['root'], color='r', linestyle='--', label=f'Akar = {result["root"]:.6f}')
-                    ax.set_xlabel('Iterasi')
-                    ax.set_ylabel('Nilai x')
-                    ax.set_title(f'Konvergensi Metode {method}')
-                    ax.legend()
-                    ax.grid(True, alpha=0.3)
+                    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
+                    
+                    # Left: x values convergence
+                    ax1.plot(result['table']['Iterasi'], result['table'][plot_col], 'bo-', markersize=8)
+                    ax1.axhline(y=result['root'], color='r', linestyle='--', label=f'Akar = {result["root"]:.6f}')
+                    ax1.set_xlabel('Iterasi')
+                    ax1.set_ylabel('Nilai x')
+                    ax1.set_title(f'Konvergensi Nilai x')
+                    ax1.legend()
+                    ax1.grid(True, alpha=0.3)
+                    
+                    # Right: Error convergence (log scale)
+                    if 'Error (%)' in result['table'].columns:
+                        errors = result['table']['Error (%)'].tolist()
+                        valid_errors = [(i, e) for i, e in enumerate(errors) if isinstance(e, (int, float)) and e > 0]
+                        if valid_errors:
+                            iters, errs = zip(*valid_errors)
+                            ax2.semilogy(iters, errs, 'ro-', markersize=8)
+                            ax2.set_xlabel('Iterasi')
+                            ax2.set_ylabel('Error (%) - Log Scale')
+                            ax2.set_title('Laju Konvergensi Error')
+                            ax2.grid(True, alpha=0.3)
+                    
+                    plt.tight_layout()
                     st.pyplot(fig)
+                
+                # Convergence Rate Analysis - NEW!
+                st.markdown("### 📉 Analisis Laju Konvergensi")
+                if 'Error (%)' in result['table'].columns:
+                    errors = [e for e in result['table']['Error (%)'].tolist() if isinstance(e, (int, float)) and e > 0]
+                    if len(errors) >= 3:
+                        # Calculate convergence rate
+                        ratios = []
+                        for i in range(1, len(errors)):
+                            if errors[i-1] > 0:
+                                ratios.append(errors[i] / errors[i-1])
+                        
+                        if ratios:
+                            avg_ratio = np.mean(ratios)
+                            
+                            col1, col2, col3 = st.columns(3)
+                            with col1:
+                                st.metric("Error Awal", f"{errors[0]:.4f}%")
+                            with col2:
+                                st.metric("Error Akhir", f"{errors[-1]:.2e}%")
+                            with col3:
+                                st.metric("Rata-rata Rasio Konvergensi", f"{avg_ratio:.4f}")
+                            
+                            if avg_ratio < 0.1:
+                                st.success("🚀 **Konvergensi sangat cepat** (kuadratik atau lebih tinggi)")
+                            elif avg_ratio < 0.5:
+                                st.info("⚡ **Konvergensi cepat** (superlinear)")
+                            else:
+                                st.warning("📊 **Konvergensi linear**")
                 
         except Exception as e:
             st.error(f"❌ Error: {str(e)}")
@@ -247,6 +364,8 @@ def show_interpolation():
         y_points = np.array(y_points)
     
     x_target = st.number_input("Nilai x yang akan diinterpolasi:", value=2.5)
+    exact_str = st.text_input("Nilai eksak f(x_target) (opsional, untuk error):", value="",
+                               help="Masukkan nilai eksak hasil interpolasi jika diketahui")
     
     if st.button("📈 Hitung Interpolasi", type="primary"):
         try:
@@ -256,6 +375,15 @@ def show_interpolation():
                 result = lagrange_interpolation(x_points, y_points, x_target)
             
             st.success(f"✅ **Hasil interpolasi f({x_target}) = {result['interpolated_value']:.10f}**")
+            
+            # Calculate error if exact value provided
+            if exact_str:
+                try:
+                    exact = float(exact_str)
+                    error = abs((result['interpolated_value'] - exact) / exact) * 100 if exact != 0 else abs(result['interpolated_value'] - exact)
+                    st.write(f"Error terhadap nilai eksak: {error:.6f}%")
+                except:
+                    pass
             
             # Show table
             st.markdown("### 📋 Tabel Perhitungan")
