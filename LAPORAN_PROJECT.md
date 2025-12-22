@@ -3,10 +3,9 @@
 
 ---
 
-**Nama**: Rui Krisna Imanuel Babu 
+**Nama**: Rui Krisna Imanuel Babu    
 **NIM**: C14230277  
-**Kelas**: A 
-
+**Kelas**: A    
 **Dosen Pengampu**: Ivan Hernando
 
 ---
