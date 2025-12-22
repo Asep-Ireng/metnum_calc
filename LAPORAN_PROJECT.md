@@ -3,10 +3,10 @@
 
 ---
 
-**Nama**: [Nama Mahasiswa]  
-**NIM**: [NIM]  
-**Kelas**: [Kelas]  
-**Dosen Pengampu**: [Nama Dosen]
+**Nama**: Rui Krisna Imanuel Babu 
+**NIM**: C14230277  
+**Kelas**: A 
+**Dosen Pengampu**: Ivan Hernando
 
 ---
 
