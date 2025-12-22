@@ -474,22 +474,28 @@ def bisection(f, a, b, tol=1e-6, max_iter=100):
 ## 4. CUPLIKAN HASIL RUNNING
 
 ### 4.1 Halaman Utama
-<img width="2559" height="1148" alt="image" src="https://github.com/user-attachments/assets/e332e1cc-6616-4a7d-89d8-2ae328c90bff" />
-
+<img width="2559" height="1148" alt="image" src="https://github.com/user-attachments/assets/e332e1cc-6616-4a7d-89d8-2ae328c90bff" />   
 
 ### 4.2 Metode Pencarian Akar - Bisection
-[Screenshot hasil perhitungan Bisection dengan tabel iterasi dan grafik]
+<img width="2559" height="1168" alt="image" src="https://github.com/user-attachments/assets/d3966ca7-d64e-4ae1-9502-cbe32ca733db" />   
+<img width="2067" height="898" alt="image" src="https://github.com/user-attachments/assets/23d76642-09bb-4be0-8379-73936c841921" />   
+<img width="2011" height="1058" alt="image" src="https://github.com/user-attachments/assets/14715363-e83a-42eb-8bcd-585aabb4bc11" />   
 
 ### 4.3 Integrasi Numerik - Simpson 1/3
-[Screenshot hasil integrasi dengan visualisasi area]
+<img width="2071" height="1007" alt="image" src="https://github.com/user-attachments/assets/da8ea1b8-fb00-4cc7-aaa0-2df7f8b32bf1" />
+<img width="2050" height="865" alt="image" src="https://github.com/user-attachments/assets/98fbb0b4-9e83-44cd-9916-34abc51ff5b5" />   
+<img width="2052" height="1127" alt="image" src="https://github.com/user-attachments/assets/6bb78d9f-f7d9-454e-b43f-b5b431e4de2a" />
 
 ### 4.4 ODE Solver - Runge-Kutta 4
-[Screenshot perbandingan metode ODE dengan grafik solusi]
+<img width="1928" height="1110" alt="image" src="https://github.com/user-attachments/assets/6fa3cefd-ba94-44c5-a8fc-722c37c32c7b" />   
+<img width="2066" height="799" alt="image" src="https://github.com/user-attachments/assets/12768e4e-e7d2-4405-ad7c-7f3053cfb025" />   
+<img width="2011" height="1144" alt="image" src="https://github.com/user-attachments/assets/702b03cb-6712-476b-bea3-b2628c26d15b" />
 
 ### 4.5 Sistem Linear - Gauss-Seidel
-[Screenshot iterasi Gauss-Seidel dengan grafik konvergensi]
+<img width="2069" height="1100" alt="image" src="https://github.com/user-attachments/assets/3a6daffa-32aa-4bf3-b3ef-61cc80d884a4" />   
+<img width="2082" height="1089" alt="image" src="https://github.com/user-attachments/assets/8dc4a0a3-42b9-49ac-b7b8-e1e9b2c14fb4" />   
+<img width="2142" height="944" alt="image" src="https://github.com/user-attachments/assets/6695a4ac-8c12-42e9-a3d7-201a64760a8f" />
 
-**Catatan:** Tambahkan screenshot dari aplikasi untuk setiap bagian di atas.
 
 ---
 
