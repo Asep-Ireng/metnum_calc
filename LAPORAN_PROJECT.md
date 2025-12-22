@@ -621,17 +621,4 @@ def bisection(f, a, b, tol=1e-6, max_iter=100):
 ---
 
 ## REFERENSI
-
-1. Chapra, S. C., & Canale, R. P. (2015). *Numerical Methods for Engineers* (7th ed.). McGraw-Hill Education.
-
-2. Burden, R. L., & Faires, J. D. (2010). *Numerical Analysis* (9th ed.). Brooks/Cole, Cengage Learning.
-
-3. Dokumentasi Python:
-   - NumPy: https://numpy.org/doc/
-   - Streamlit: https://docs.streamlit.io/
-   - SymPy: https://docs.sympy.org/
-
----
-
-**Tanggal Pembuatan:** Desember 2024  
 **Repository:** https://github.com/Asep-Ireng/metnum_calc
