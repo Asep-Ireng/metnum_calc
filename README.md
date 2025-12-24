@@ -1,5 +1,7 @@
 # 🧮 Kalkulator Metode Numerik
 
+📄 **Laporan Proyek:** [Buka Laporan](LAPORAN_PROJECT.md)    
+
 Aplikasi kalkulator metode numerik berbasis **Streamlit** yang mengimplementasikan **20 metode** untuk menyelesaikan berbagai permasalahan matematika.
 
 ## 📋 Daftar Metode
@@ -75,9 +77,7 @@ Metode: Simpson 1/3
 ```
 
 ## 👨‍💻 Author
+Rui Krisna 
+
 
 Project Mata Kuliah **Metode Numerik**
-
-## 📄 License
-
-MIT License
