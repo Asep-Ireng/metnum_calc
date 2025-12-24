@@ -181,14 +181,73 @@ def show_root_finding():
                 a = st.number_input("Batas bawah (a):", value=1.0)
             with c2:
                 b = st.number_input("Batas atas (b):", value=2.0)
+            
+            # Validate bracketing condition
+            try:
+                f_test = safe_parse(func_str)
+                f_a = f_test(a)
+                f_b = f_test(b)
+                
+                st.markdown("**Syarat Input:**")
+                
+                # Check a < b
+                if a < b:
+                    st.markdown("• a < b (✅ OK)")
+                else:
+                    st.markdown("• a < b (❌ Invalid, a harus lebih kecil dari b)")
+                
+                # Check bracketing
+                if f_a * f_b < 0:
+                    st.markdown(f"• f(a)·f(b) < 0 (✅ OK) → f({a})={f_a:.4f}, f({b})={f_b:.4f}")
+                else:
+                    st.markdown(f"• f(a)·f(b) < 0 (❌ Invalid) → f({a})={f_a:.4f}, f({b})={f_b:.4f}")
+                    st.warning("⚠️ Akar tidak terbracket! Ubah interval [a,b]")
+            except:
+                st.markdown("**Syarat Input:** ⏳ Masukkan fungsi valid untuk validasi")
+                
         elif method == "Newton-Raphson":
             x0 = st.number_input("Tebakan awal (x₀):", value=1.5)
+            
+            # Validate derivative not zero
+            try:
+                f_test, f_prime_test, _ = safe_parse_derivative(func_str)
+                f_prime_x0 = f_prime_test(x0)
+                
+                st.markdown("**Syarat Input:**")
+                if abs(f_prime_x0) > 1e-10:
+                    st.markdown(f"• f'(x₀) ≠ 0 (✅ OK) → f'({x0})={f_prime_x0:.6f}")
+                else:
+                    st.markdown(f"• f'(x₀) ≠ 0 (❌ Invalid) → f'({x0})≈0")
+                    st.warning("⚠️ Turunan mendekati nol! Ubah tebakan awal")
+            except:
+                st.markdown("**Syarat Input:** ⏳ Masukkan fungsi valid untuk validasi")
+                
         else:  # Secant
             c1, c2 = st.columns(2)
             with c1:
                 x0 = st.number_input("Tebakan awal pertama (x₀):", value=1.0)
             with c2:
                 x1 = st.number_input("Tebakan awal kedua (x₁):", value=2.0)
+            
+            # Validate x0 != x1
+            try:
+                f_test = safe_parse(func_str)
+                f_x0 = f_test(x0)
+                f_x1 = f_test(x1)
+                
+                st.markdown("**Syarat Input:**")
+                
+                if x0 != x1:
+                    st.markdown("• x₀ ≠ x₁ (✅ OK)")
+                else:
+                    st.markdown("• x₀ ≠ x₁ (❌ Invalid)")
+                
+                if abs(f_x1 - f_x0) > 1e-10:
+                    st.markdown(f"• f(x₀) ≠ f(x₁) (✅ OK) → f({x0})={f_x0:.4f}, f({x1})={f_x1:.4f}")
+                else:
+                    st.markdown(f"• f(x₀) ≠ f(x₁) (❌ Invalid) → nilai sama")
+            except:
+                st.markdown("**Syarat Input:** ⏳ Masukkan fungsi valid untuk validasi")
         
         c1, c2 = st.columns(2)
         with c1:
@@ -367,6 +426,36 @@ def show_interpolation():
     exact_str = st.text_input("Nilai eksak f(x_target) (opsional, untuk error):", value="",
                                help="Masukkan nilai eksak hasil interpolasi jika diketahui")
     
+    # Validation
+    st.markdown("**Syarat Input:**")
+    
+    # Check data points count
+    n = len(x_points)
+    if n >= 2:
+        st.markdown(f"• Jumlah titik ≥ 2 (✅ OK) → {n} titik")
+    else:
+        st.markdown("• Jumlah titik ≥ 2 (❌ Invalid)")
+    
+    # Check unique x values
+    if len(set(x_points)) == len(x_points):
+        st.markdown("• Nilai x unik (✅ OK)")
+    else:
+        st.markdown("• Nilai x unik (❌ Invalid, ada nilai x duplikat)")
+    
+    # Check length match
+    if len(x_points) == len(y_points):
+        st.markdown("• Jumlah x = Jumlah y (✅ OK)")
+    else:
+        st.markdown("• Jumlah x = Jumlah y (❌ Invalid)")
+    
+    # Check if target is within range (interpolation vs extrapolation)
+    if len(x_points) > 0:
+        x_min, x_max = min(x_points), max(x_points)
+        if x_min <= x_target <= x_max:
+            st.markdown(f"• x_target dalam range (✅ Interpolasi) → [{x_min}, {x_max}]")
+        else:
+            st.markdown(f"• x_target diluar range (⚠️ Ekstrapolasi) → target={x_target}, range=[{x_min}, {x_max}]")
+    
     if st.button("📈 Hitung Interpolasi", type="primary"):
         try:
             if method == "Newton Divided Difference":
@@ -431,6 +520,28 @@ def show_integration():
         with c3:
             n = st.number_input("Jumlah sub-interval (n):", value=10, min_value=1)
         
+        # Syarat N validation display
+        st.markdown("**Syarat N:**")
+        
+        # Trapesium - always valid
+        st.markdown("• Trapesium: Bebas ✅")
+        
+        # Simpson 1/3 - must be even
+        if n % 2 == 0:
+            st.markdown("• Simpson 1/3: Genap (✅ OK)")
+        else:
+            st.markdown("• Simpson 1/3: Genap (❌ Invalid, n harus genap)")
+        
+        # Simpson 3/8 - must be multiple of 3
+        if n % 3 == 0:
+            st.markdown("• Simpson 3/8: Kelipatan 3 (✅ OK)")
+        else:
+            st.markdown("• Simpson 3/8: Kelipatan 3 (❌ Invalid, n harus kelipatan 3)")
+        
+        # Additional bounds check
+        if a >= b:
+            st.error("❌ Batas bawah (a) harus lebih kecil dari batas atas (b)!")
+        
         exact_str = st.text_input("Nilai eksak (opsional, untuk error):", value="", 
                                    help="Masukkan nilai eksak integral jika diketahui")
     
@@ -444,26 +555,36 @@ def show_integration():
                 
                 results = []
                 
-                # Trapezoidal
+                # Trapezoidal - always valid
                 trap = trapezoidal(f, a, b, n)
                 results.append({'Metode': 'Trapezoidal', 'n': n, 'Hasil': trap['integral']})
                 
-                # Simpson 1/3
-                n_simp = n if n % 2 == 0 else n + 1
-                simp13 = simpson_13(f, a, b, n_simp)
-                if simp13['integral'] is not None:
-                    results.append({'Metode': 'Simpson 1/3', 'n': n_simp, 'Hasil': simp13['integral']})
+                # Simpson 1/3 - only if n is even
+                if n % 2 == 0:
+                    simp13 = simpson_13(f, a, b, n)
+                    if simp13['integral'] is not None:
+                        results.append({'Metode': 'Simpson 1/3', 'n': n, 'Hasil': simp13['integral']})
                 
-                # Simpson 3/8
-                n_38 = n if n % 3 == 0 else (n // 3 + 1) * 3
-                simp38 = simpson_38(f, a, b, n_38)
-                if simp38['integral'] is not None:
-                    results.append({'Metode': 'Simpson 3/8', 'n': n_38, 'Hasil': simp38['integral']})
+                # Simpson 3/8 - only if n is multiple of 3
+                if n % 3 == 0:
+                    simp38 = simpson_38(f, a, b, n)
+                    if simp38['integral'] is not None:
+                        results.append({'Metode': 'Simpson 3/8', 'n': n, 'Hasil': simp38['integral']})
                 
                 if exact:
                     for r in results:
                         r['Error (%)'] = abs((r['Hasil'] - exact) / exact) * 100
                     results.append({'Metode': 'Eksak', 'n': '-', 'Hasil': exact, 'Error (%)': 0})
+                
+                # Show info about excluded methods
+                excluded = []
+                if n % 2 != 0:
+                    excluded.append("Simpson 1/3 (n harus genap)")
+                if n % 3 != 0:
+                    excluded.append("Simpson 3/8 (n harus kelipatan 3)")
+                
+                if excluded:
+                    st.info(f"ℹ️ Metode tidak ditampilkan karena n={n} invalid: {', '.join(excluded)}")
                 
                 st.dataframe(pd.DataFrame(results), use_container_width=True)
             else:
@@ -533,6 +654,19 @@ def show_differentiation():
         with c2:
             h = st.number_input("Step size h:", value=0.1, format="%.4f")
         
+        # Validation
+        st.markdown("**Syarat Input:**")
+        
+        if h > 0:
+            st.markdown(f"• h > 0 (✅ OK) → h = {h}")
+        else:
+            st.markdown("• h > 0 (❌ Invalid, step size harus positif)")
+        
+        if h <= 1:
+            st.markdown("• h ≤ 1 (✅ Recommended untuk akurasi baik)")
+        else:
+            st.markdown("• h > 1 (⚠️ Warning: h besar dapat mengurangi akurasi)")
+        
         exact_str = st.text_input("Nilai turunan eksak (opsional):", value="",
                                    help="Masukkan f'(x) eksak jika diketahui")
     
@@ -597,6 +731,28 @@ def show_ode():
             x_end = st.number_input("x akhir:", value=2.0)
         with c3:
             h = st.number_input("Step size h:", value=0.2, format="%.4f")
+        
+        # Validation
+        st.markdown("**Syarat Input:**")
+        
+        if x_end > x0:
+            st.markdown(f"• x_end > x₀ (✅ OK) → interval [{x0}, {x_end}]")
+        else:
+            st.markdown("• x_end > x₀ (❌ Invalid, x akhir harus lebih besar)")
+        
+        if h > 0:
+            st.markdown(f"• h > 0 (✅ OK) → h = {h}")
+        else:
+            st.markdown("• h > 0 (❌ Invalid, step size harus positif)")
+        
+        if h > 0 and x_end > x0:
+            n_steps = int((x_end - x0) / h)
+            st.markdown(f"• Jumlah langkah: {n_steps} steps")
+            
+            if n_steps > 1000:
+                st.warning("⚠️ Banyak langkah! Perhitungan mungkin lambat")
+            elif n_steps < 2:
+                st.warning("⚠️ Step size terlalu besar, kurangi h")
         
         exact_str = st.text_input("Solusi eksak y(x) (opsional):", value="exp(x)",
                                    help="Untuk perhitungan error. Contoh: exp(x)")
@@ -708,6 +864,36 @@ def show_linear_systems():
         with cols[i]:
             default_val = float(default_b[i]) if i < 3 else 0.0
             b[i] = st.number_input(f"b[{i+1}]", value=default_val, key=f"b_{i}")
+    
+    # Validation
+    st.markdown("**Syarat Input:**")
+    
+    # Check determinant (non-singular)
+    try:
+        det = np.linalg.det(A)
+        if abs(det) > 1e-10:
+            st.markdown(f"• det(A) ≠ 0 (✅ OK) → det = {det:.6f}")
+        else:
+            st.markdown(f"• det(A) ≠ 0 (❌ Invalid) → det ≈ 0, matriks singular")
+            st.error("❌ Matriks singular! Tidak ada solusi unik")
+    except:
+        st.markdown("• det(A): ⏳ Checking...")
+    
+    # Check diagonal dominance for iterative methods
+    if method in ["Jacobi (Iteratif)", "Gauss-Seidel (Iteratif)"]:
+        diag_dominant = True
+        for i in range(n):
+            diag = abs(A[i, i])
+            off_diag_sum = sum(abs(A[i, j]) for j in range(n) if j != i)
+            if diag <= off_diag_sum:
+                diag_dominant = False
+                break
+        
+        if diag_dominant:
+            st.markdown("• Diagonal dominan (✅ OK) → konvergensi dijamin")
+        else:
+            st.markdown("• Diagonal dominan (⚠️ Warning) → konvergensi tidak dijamin")
+            st.warning("⚠️ Matriks tidak diagonal dominan. Metode iteratif mungkin tidak konvergen.")
     
     # Extra parameters for iterative methods
     if method in ["Jacobi (Iteratif)", "Gauss-Seidel (Iteratif)"]:
